@@ -6,5 +6,112 @@
 {% endblock %}
 
 {% block body %}
-<h2>It works!</h2>
+
+<main>
+    <svg
+        id="map"
+        viewBox="0 0 540 354"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:svg="http://www.w3.org/2000/svg">
+        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="/static/map.css" type="text/css"/>
+        <defs
+            id="defs1" />
+        <g
+            transform="translate(236.39243,123.95924)">
+
+            <!-- Rooms and labels -->
+            <rect
+                class="room g11"
+                width="159.82156"
+                height="84.666664"
+                x="-85.910446"
+                y="-121.45924" />
+            <text
+                class="room label g11"
+                xml:space="preserve"
+                style="font-size:15.8384px"
+                x="40.1021"
+                y="-105.21385"
+                id="text11"><tspan
+                                sodipodi:role="line"
+                                x="40.1021"
+                                y="-105.21385">G11</tspan></text>
+            <rect
+                class="room g1"
+                width="238.12498"
+                height="116.41666"
+                x="-53.689896"
+                y="110.16856" />
+            <text
+                class="room g1"
+                xml:space="preserve"
+                style="font-size:23.3785px"
+                x="154.60263"
+                y="223.72664"><tspan
+                               sodipodi:role="line"
+                               x="151.60263"
+                               y="220.72664">G1</tspan></text>
+            <rect
+                class="room g14"
+                width="74.083328"
+                height="119.06249"
+                x="-233.89243"
+                y="-120.0711" />
+            <text
+                class="room label g14"
+                xml:space="preserve"
+                style="font-size:16.893px"
+                x="-192.78944"
+                y="-4.0246921"><tspan
+                               sodipodi:role="line"
+                               x="-195.78944"
+                               y="-6.0246921">G14</tspan></text>
+            <rect
+                class="room g8"
+                width="120.1711"
+                height="160.91695"
+                x="-72.092018"
+                y="129.51364"
+                transform="rotate(-90)" />
+            <text
+                class="room label g8"
+                xml:space="preserve"
+                style="font-size:24.8279px"
+                x="257.3959"
+                y="-24.634007"><tspan
+                                sodipodi:role="line"
+                                x="257.3959"
+                                y="-24.634007">G8</tspan></text>
+
+            <rect
+                class="room g2"
+                width="79.263893"
+                height="114.04519"
+                x="-167.31538"
+                y="112.2851" />
+            <text
+                class="room label g2"
+                xml:space="preserve"
+                style="font-size:23.899px"
+                x="-121.19679"
+                y="223.75183"><tspan
+                               sodipodi:role="line"
+                               x="-119.19679"
+                               y="222.75183">G2</tspan></text>
+
+            <!-- Hallway -->
+            <path
+                style="fill:none;stroke:white;stroke-width:2;stroke-linecap:butt;stroke-linejoin:bevel;"
+                d="M -58.255798,-18.586224 V -36.726917 M -158.65003,-18.731859 H 101.00061 V 109.21193 m 59.95574,-36.24255 v 18.979237 h -59.90692 -213.74652 v 20.450973"
+                sodipodi:nodetypes="cccccccccc" />
+        </g>
+    </svg>
+    <ul id="log">
+        <li>welcome</li>
+    </ul>
+</main>
+
+{{ websocket_url | json_script:"websocket-url" }}
+<script src="{% static 'js/map.js' %}"></script>
 {% endblock %}

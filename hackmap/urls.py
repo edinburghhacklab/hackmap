@@ -19,4 +19,4 @@ from django.contrib import admin
 from django.urls import path
 from labmap import views
 
-urlpatterns = [path("admin/", admin.site.urls), path("", views.hello)]
+urlpatterns = [path("admin/", admin.site.urls), path("", views.map)]

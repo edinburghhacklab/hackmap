@@ -1,3 +1,90 @@
+/* Actual page styling */
+:root {
+    --font-sans: 'Inter', sans-serif;
+    --font-mono: 'Monaspace Neon', monospace;
+
+    --color-base: #000;
+    --color-text: #fff;
+    --color-room-inactive: #e6e6e6;
+    --color-room-active: #FFDC00;
+    --color-room-active-glow: rgba(255, 220, 0, 0.5);
+}
+
 body {
-    background: pink;
+    background: var(--color-base);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    margin: 2rem 0;
+}
+
+main {
+    width: 110ch;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    justify-items: center;
+    align-items: start;
+}
+
+#map {
+    width: 100%;
+}
+
+/* The action log */
+#log {
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    position: relative;
+    width: 100%;
+}
+
+#log li {
+    animation: 0.5s slidein;
+}
+
+@keyframes slidein {
+    from {
+        font-size: 0;
+    }
+    to {
+        font-size: 1.5rem;
+    }
+}
+
+/* Helpers for log entries to use */
+span.username {
+    color: #1e66f5;
+}
+span.target {
+    color: var(--color-room-active);
+}
+
+/* SVG Styling */
+
+/* Room rectangles and labels */
+rect.room {
+    fill: none;
+    stroke: var(--color-room-inactive);
+    stroke-width: 3px;
+}
+
+text.room {
+    fill: var(--color-text);
+    font-family: var(--font-mono);
+}
+
+.room {
+    transition: stroke-color 0.1s linear, filter 0.2s linear;
+}
+
+rect.room.active {
+    stroke: var(--color-room-active);
+    filter: drop-shadow(1px 1px 1px var(--color-room-active-glow))
+            drop-shadow(1px -1px 1px var(--color-room-active-glow))
+            drop-shadow(-1px 1px 1px var(--color-room-active-glow))
+            drop-shadow(-1px -1px 1px var(--color-room-active-glow));
+}
+text.room.active {
+    fill: var(--color-room-active);
 }

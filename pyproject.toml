@@ -10,6 +10,7 @@ readme = "README.md"
 python = "^3.11"
 django = "^5.1"
 django-vite = "^3.0.4"
+websockets = "^13.0"
 
 
 [build-system]
