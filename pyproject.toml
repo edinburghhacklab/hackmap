@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "hackmap"
+version = "0.1.0"
+description = "Map for edinburgh hacklab"
+authors = ["Aria Shrimpton <me@aria.rip>"]
+license = "AGPL"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.1"
+django-vite = "^3.0.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
