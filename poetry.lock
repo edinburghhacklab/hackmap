@@ -15,6 +15,20 @@ files = [
 tests = ["mypy (>=0.800)", "pytest", "pytest-asyncio"]
 
 [[package]]
+name = "asyncio-paho"
+version = "0.6.0"
+description = "A Paho MQTT client supporting asyncio loop without additional setup."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "asyncio_paho-0.6.0-py3-none-any.whl", hash = "sha256:7239dc5ec17afef1c1ea162e6c32c477c6cc728ce64740ca433b984bded122e7"},
+    {file = "asyncio_paho-0.6.0.tar.gz", hash = "sha256:19fffd4758bfcf704393acf8b540d06a9def27270b2cf55826f956660a8f1496"},
+]
+
+[package.dependencies]
+paho-mqtt = ">=1.6,<2.0"
+
+[[package]]
 name = "django"
 version = "5.1"
 description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
@@ -50,6 +64,19 @@ Django = ">=3.2"
 
 [package.extras]
 dev = ["black"]
+
+[[package]]
+name = "paho-mqtt"
+version = "1.6.1"
+description = "MQTT version 5.0/3.1.1 client class"
+optional = false
+python-versions = "*"
+files = [
+    {file = "paho-mqtt-1.6.1.tar.gz", hash = "sha256:2a8291c81623aec00372b5a85558a372c747cbca8e9934dfe218638b8eefc26f"},
+]
+
+[package.extras]
+proxy = ["PySocks"]
 
 [[package]]
 name = "sqlparse"
@@ -175,4 +202,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "8d1a67fa4e4829d91a90a7f7d5c6d0063fb41e535eccb90abcebcb8be8b6056f"
+content-hash = "91023afe7860b816f1d7695b783d9356ae6c7b74887737348e75a59b610cb701"
