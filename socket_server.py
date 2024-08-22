@@ -4,7 +4,7 @@ import json
 import os
 import dataclasses
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from asyncio_paho import AsyncioPahoClient
 from paho.mqtt.client import MQTTMessage
@@ -13,19 +13,15 @@ from websockets.asyncio.server import (
     serve,
     ServerConnection as WebsocketConnection,
 )
-
-DEBUG = True
+from hackmap.local_settings import (
+    DEBUG,
+    MQTT_HOST,
+    ROOM_ACTIVE_TIME,
+    ROOM_EXPIRY_POLL_SECS,
+    WEBSOCKET_BIND,
+)
 
 ROOM_WHITELIST = ["g1", "g2", "g8", "g11", "g14"]
-
-# MQTT Broker
-MQTT_HOST = os.environ["MQTT_HOST"]
-
-# How long a room is considered active after its door is triggered
-ROOM_ACTIVE_TIME = timedelta(minutes=5)
-
-# How often to check if rooms are now inactive
-ROOM_EXPIRY_POLL_SECS = 1
 
 # Open websockets
 CONNECTIONS: set[WebsocketConnection] = set()
@@ -205,45 +201,163 @@ async def send_message(msg: WebsocketMessage):
     broadcast(CONNECTIONS, json.dumps(dataclasses.asdict(msg)))
 
 
-async def main():
-    async with serve(new_websocket, "localhost", 8001):
-        await event_loop()  # runs forever
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
-
 # Code for testing without MQTT
 # MESSAGES = [
 #     WebsocketMessage(
-#         "<span class=username>aria</span> entered <span class=target>g1</span>",
-#         "g1",
-#         "room",
+#         "<span class=username>aria</span> started using lasercutter",
+#         "tool",
+#         "lasercutter",
 #         "active",
 #     ),
 #     WebsocketMessage(
-#         "<span class=target>g2</span> is now empty",
-#         "g2",
-#         "room",
+#         "<span class=tool>lasercutter</span> is no longer in use",
+#         "tool",
+#         "lasercutter",
 #         "inactive",
 #     ),
 #     WebsocketMessage(
-#         "<span class=username>yasha</span> entered <span class=target>g8</span>",
+#         "<span class=username>aria</span> started using lasercutter2",
+#         "tool",
+#         "lasercutter2",
+#         "active",
+#     ),
+#     WebsocketMessage(
+#         "<span class=tool>lasercutter2</span> is no longer in use",
+#         "tool",
+#         "lasercutter2",
+#         "inactive",
+#     ),
+#     WebsocketMessage(
+#         "<span class=username>aria</span> started using robotarm",
+#         "tool",
+#         "robotarm",
+#         "active",
+#     ),
+#     WebsocketMessage(
+#         "<span class=tool>robotarm</span> is no longer in use",
+#         "tool",
+#         "robotarm",
+#         "inactive",
+#     ),
+#     WebsocketMessage(
+#         "<span class=username>aria</span> started using lathe",
+#         "tool",
+#         "lathe",
+#         "active",
+#     ),
+#     WebsocketMessage(
+#         "<span class=tool>lathe</span> is no longer in use",
+#         "tool",
+#         "lathe",
+#         "inactive",
+#     ),
+#     WebsocketMessage(
+#         "<span class=username>aria</span> started using bandsaw",
+#         "tool",
+#         "bandsaw",
+#         "active",
+#     ),
+#     WebsocketMessage(
+#         "<span class=tool>bandsaw</span> is no longer in use",
+#         "tool",
+#         "bandsaw",
+#         "inactive",
+#     ),
+#     WebsocketMessage(
+#         "<span class=username>aria</span> started using sander",
+#         "tool",
+#         "sander",
+#         "active",
+#     ),
+#     WebsocketMessage(
+#         "<span class=tool>sander</span> is no longer in use",
+#         "tool",
+#         "sander",
+#         "inactive",
+#     ),
+#     WebsocketMessage(
+#         "<span class=username>aria</span> started using cncrouter",
+#         "tool",
+#         "cncrouter",
+#         "active",
+#     ),
+#     WebsocketMessage(
+#         "<span class=tool>cncrouter</span> is no longer in use",
+#         "tool",
+#         "cncrouter",
+#         "inactive",
+#     ),
+#     WebsocketMessage(
+#         "<span class=username>aria</span> started using sewingmachine",
+#         "tool",
+#         "sewingmachine",
+#         "active",
+#     ),
+#     WebsocketMessage(
+#         "<span class=tool>sewingmachine</span> is no longer in use",
+#         "tool",
+#         "sewingmachine",
+#         "inactive",
+#     ),
+#     WebsocketMessage(
+#         "<span class=username>aria</span> entered <span class=room>g1</span>",
+#         "room",
+#         "g1",
+#         "active",
+#     ),
+#     WebsocketMessage(
+#         None,
+#         "room",
+#         "g1",
+#         "inactive",
+#     ),
+#     WebsocketMessage(
+#         "<span class=username>aria</span> entered <span class=room>g8</span>",
+#         "room",
 #         "g8",
-#         "room",
 #         "active",
 #     ),
 #     WebsocketMessage(
-#         "<span class=target>g1</span> is now empty",
-#         "g1",
+#         None,
 #         "room",
+#         "g8",
 #         "inactive",
 #     ),
 #     WebsocketMessage(
-#         "<span class=username>costa</span> entered <span class=target>g11</span>",
-#         "g11",
+#         "<span class=username>aria</span> entered <span class=room>g11</span>",
 #         "room",
+#         "g11",
 #         "active",
+#     ),
+#     WebsocketMessage(
+#         None,
+#         "room",
+#         "g11",
+#         "inactive",
+#     ),
+#     WebsocketMessage(
+#         "<span class=username>aria</span> entered <span class=room>g14</span>",
+#         "room",
+#         "g14",
+#         "active",
+#     ),
+#     WebsocketMessage(
+#         None,
+#         "room",
+#         "g14",
+#         "inactive",
+#     ),
+#     WebsocketMessage(
+#         "<span class=username>aria</span> entered <span class=room>g2</span>",
+#         "room",
+#         "g2",
+#         "active",
+#     ),
+#     WebsocketMessage(
+#         None,
+#         "room",
+#         "g2",
+#         "inactive",
 #     ),
 # ]
 
@@ -254,4 +368,14 @@ if __name__ == "__main__":
 #         await send_message(MESSAGES[i])
 #         print(MESSAGES[i])
 #         i = (i + 1) % len(MESSAGES)
-#         await asyncio.sleep(2.0)
+#         await asyncio.sleep(0.2)
+
+
+async def main():
+    async with serve(new_websocket, WEBSOCKET_BIND[0], WEBSOCKET_BIND[1]):
+        await event_loop()  # runs forever
+        # await mock_events()  # runs forever
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
