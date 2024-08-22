@@ -65,7 +65,8 @@ async def new_websocket(websocket: WebsocketConnection):
 async def subscribe_topics(client, _userdata, _flags_dict, _result):
     """Subscribe to MQTT topics for a new connection"""
     await client.asyncio_subscribe("doorman/+/user")
-    await client.asyncio_subscribe("sensor/+/presence")
+    # await client.asyncio_subscribe("sensor/+/presence")
+    await client.asyncio_subscribe("tool/+/user")
 
 
 async def doorman_message(msg):
