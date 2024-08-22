@@ -131,6 +131,32 @@ async def presence_message(msg):
         )
 
 
+async def tool_message(msg):
+    """Handle a tool status MQTT message, from tool/+/user"""
+    # topic is of the form tool/<room>/user
+    tool = msg.topic.split("/")[1]
+    name: str = msg.payload.decode("utf-8")
+
+    if len(name) == 0:
+        await send_message(
+            WebsocketMessage(
+                f"<span class=tool>{tool}</span> no longer in use",
+                "tool",
+                tool,
+                "inactive",
+            )
+        )
+    elif name != "anonymous":
+        await send_message(
+            WebsocketMessage(
+                f"<span class=username>{name}</span> is now using <span class=tool>{tool}</span>",
+                "tool",
+                tool,
+                "active",
+            )
+        )
+
+
 async def mqtt_message(_client, _userdata, msg: MQTTMessage):
     """Dispatch MQTT message to the correct handler"""
     try:
@@ -138,6 +164,8 @@ async def mqtt_message(_client, _userdata, msg: MQTTMessage):
             await doorman_message(msg)
         elif msg.topic.startswith("sensor/") and msg.topic.endswith("/presence"):
             await presence_message(msg)
+        elif msg.topic.startswith("tool/") and msg.topic.endswith("/user"):
+            await tool_message(msg)
     except Exception as e:
         print(f"Error processing message: {e}")
 
