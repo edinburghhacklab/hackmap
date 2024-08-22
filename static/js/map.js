@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
         element.innerHTML = text;
         logElement.prepend(element);
 
-        while (logElement.childElementCount > 10) {
+        while (logElement.childElementCount > 20) {
             logElement.removeChild(logElement.lastChild);
         }
     }

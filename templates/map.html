@@ -10,7 +10,7 @@
 <main>
     <svg
         id="map"
-        viewBox="0 0 540 354"
+        viewBox="0 0 625 375"
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:svg="http://www.w3.org/2000/svg">
@@ -18,7 +18,142 @@
         <defs
             id="defs1" />
         <g
-            transform="translate(236.39243,123.95924)">
+            transform="translate(264.39243,123.95924)">
+
+            <!-- Tools -->
+
+            <!-- Laser cutters (in G2) -->
+            <rect
+                class="tool lasercutter"
+                width="14.204831"
+                height="36.237598"
+                x="-166.67567"
+                y="188.88391" />
+            <path
+                class="tool lasercutter"
+                d="m -162.50916,205.55628 h -36.80072 v -7.29279" />
+            <text
+                class="tool lasercutter"
+                xml:space="preserve"
+                x="-226.40039"
+                y="199.73814"><tspan x="-254.40039" y="195.73814">lasercutter</tspan></text>
+
+            <rect
+                class="tool lasercutter2"
+                width="33.490749"
+                height="57.780319"
+                x="-120.66006"
+                y="167.64182" />
+            <path
+                class="tool lasercutter2"
+                d="m -86.948727,202.3232 h 13.887975 v 36.73046" />
+            <text
+                class="tool lasercutter2"
+                xml:space="preserve"
+                x="-106.62537"
+                y="247.95316"
+                id="text12-0-2"><tspan x="-106.62537" y="247.95316">lasercutter2</tspan></text>
+
+            <!-- Robot arm -->
+            <rect
+                class="tool robotarm"
+                width="18.294683"
+                height="21.275509"
+                x="114.45937"
+                y="110.42714" />
+            <path
+                class="tool robotarm"
+                d="m 124.54053,109.36808 v -8.89862 h 18.23072" />
+            <text
+                xml:space="preserve"
+                class="tool robotarm"
+                x="160.35342"
+                y="109.61143"
+                id="text21"><tspan x="148.35342" y="104.61143">robotarm</tspan></text>
+
+            <!-- Sewing machine -->
+            <rect
+                class="tool sewingmachine"
+                width="14.204831"
+                height="36.061005"
+                x="-174.22035"
+                y="-105.2438" />
+            <path
+                class="tool sewingmachine"
+                d="m -159.54425,-87.415706 h 35.3487 v -4.731803" />
+            <text
+                xml:space="preserve"
+                class="tool sewingmachine"
+                x="-121.23756"
+                y="-94.674416"
+                id="text20">
+                <tspan x="-154.23756" y="-110.674416">sewing</tspan>
+                <tspan x="-154.23756" y="-96.674416">machine</tspan>
+            </text>
+
+            <!-- CNC Router -->
+            <rect
+                class="tool cncrouter"
+                width="27.695532"
+                height="47.715424"
+                x="130.11385"
+                y="-15.319626" />
+            <path
+                class="tool cncrouter"
+                d="M 130.73756,10.153811 H 118.956619 v -69.321278 h 12.147911" />
+            <text
+                xml:space="preserve"
+                class="tool cncrouter"
+                x="131.94858"
+                y="-50.327072"><tspan x="133.94858" y="-57.327072">cnc router</tspan></text>
+
+            <!-- Sander -->
+            <rect
+                class="tool sander"
+                width="20.340311"
+                height="29.277544"
+                x="270.67361"
+                y="-30.015087" />
+            <path
+                class="tool sander"
+                d="m 289.08701,-13.64091 h 17.19421 v -45.428395" />
+            <text
+                xml:space="preserve"
+                class="tool sander"
+                x="262.13205"
+                y="-61.679375"><tspan x="289.13205" y="-61.679375">sander</tspan></text>
+
+            <!-- Bandsaw -->
+            <rect
+                class="tool bandsaw"
+                width="30.390858"
+                height="36.318302"
+                x="260.34465"
+                y="-0.67633486" />
+            <path
+                class="tool bandsaw"
+                d="m 290.95715,17.7043 h 18.16454 v 64.234594" />
+            <text
+                xml:space="preserve"
+                class="tool bandsaw"
+                x="259.0575"
+                y="91.795052"><tspan x="289.0575" y="91.795052">bandsaw</tspan></text>
+
+            <!-- Lathe -->
+            <rect
+                class="tool lathe"
+                width="53.181961"
+                height="22.545214"
+                x="175.6028"
+                y="49.98061" />
+            <path
+                class="tool lathe"
+                d="m 200.33417,72.661957 v 19.395699 h 20.58249" />
+            <text
+                xml:space="preserve"
+                class="tool lathe"
+                x="198.68123"
+                y="95.296509"><tspan x="223.68123" y="95.296509">lathe</tspan></text>
 
             <!-- Rooms and labels -->
             <rect
@@ -102,7 +237,7 @@
 
             <!-- Hallway -->
             <path
-                style="fill:none;stroke:white;stroke-width:2;stroke-linecap:butt;stroke-linejoin:bevel;"
+                id="hallway"
                 d="M -58.255798,-18.586224 V -36.726917 M -158.65003,-18.731859 H 101.00061 V 109.21193 m 59.95574,-36.24255 v 18.979237 h -59.90692 -213.74652 v 20.450973"
                 sodipodi:nodetypes="cccccccccc" />
         </g>
