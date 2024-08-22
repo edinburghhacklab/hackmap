@@ -8,6 +8,7 @@
     --color-base: #000;
     --color-text: #fff;
     --color-subtle: #AAA;
+    --color-username: #F012BE;
     --color-room-inactive: #AAA;
     --color-room-active: #FFDC00;
     --color-tool-inactive: #AAA;
@@ -115,6 +116,7 @@ text.room.active {
 /* Tool rectangles, path things, and labels */
 rect.tool {
     stroke: var(--color-tool-inactive);
+    stroke-width: 2px;
     transition: all var(--animation-length);
 }
 path.tool, text.tool {
