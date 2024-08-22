@@ -31,6 +31,18 @@ main {
     align-items: start;
 }
 
+@media only screen and (orientation: portrait) {
+    :root {
+        --log-font-size: 2rem;
+    }
+
+    main {
+        margin-top: 5rem;
+        grid-template-columns: 100%;
+        width: 90%;
+    }
+}
+
 #map {
     width: 100%;
 }
