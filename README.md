@@ -9,7 +9,28 @@ either use nix-shell, or download:
   - pyenv / python 3.11+
   - poetry
 
-and run `poetry env use` then `poetry run manage.py runserver` to start the django app and `poetry run python socket_server.py` in a separate terminal to start the websocket server.
+and run
+
+```sh
+# if you want the venv to be in the project dir (e.g. for intellisense)
+poetry config virtualenvs.in-project true
+
+# create & activate the venv
+poetry env use python
+
+# to install dependencies from `pyproject.toml`
+poetry install
+
+# to apply migrations
+poetry run ./manage.py migrate
+
+# to start the django app
+poetry run ./manage.py runserver
+
+# in a separate terminal,
+# to start the websocket server
+poetry run ./socket_server.py
+```
 
 formatting should be checked with `ruff`, and types with `pyright`.
 
