@@ -1,44 +1,15 @@
-/* Actual page styling */
 :root {
-    --font-sans: 'Inter', sans-serif;
-    --font-mono: 'Monaspace Neon', monospace;
-
-    --animation-length: 0.3s;
     --log-font-size: 1.5rem;
-    --color-base: #111111;
-    --color-text: #fff;
-    --color-subtle: #AAA;
-    --color-username: #F012BE;
-    --color-room-inactive: var(--color-subtle);
-    --color-room-active: #FFDC00;
-    --color-tool-inactive: var(--color-subtle);
-    --color-tool-active: #0074D9;
-
     --fade-out-gradient: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1.0));
 }
+
 @media (prefers-color-scheme: light) {
     :root {
-        --color-base: #eff1f5;
-        --color-text: #4c4f69;
-        --color-subtle: #5c5f77;
-        --color-username: #8839ef;
-        --color-room-active: #df8e1d;
-        --color-tool-active: #1e66f5;
-
         --fade-out-gradient: linear-gradient(rgba(239, 241, 245, 0), rgba(239, 241, 245, 1.0))
     }
 }
 
-body {
-    background: var(--color-base);
-    color: var(--color-text);
-    font-family: var(--font-sans);
-    margin: 2rem 0;
-}
-
 main {
-    width: 75%;
-    margin: 0 auto;
     display: grid;
     grid-template-columns: 70% 30%;
     justify-items: center;
