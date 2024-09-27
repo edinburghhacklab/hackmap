@@ -4,15 +4,29 @@
     --font-mono: 'Monaspace Neon', monospace;
 
     --animation-length: 0.3s;
-    --log-font-size: 1.0rem;
-    --color-base: #000;
-    --color-text: #fff;
-    --color-subtle: #AAA;
-    --color-username: #F012BE;
-    --color-room-inactive: #AAA;
-    --color-room-active: #FFDC00;
-    --color-tool-inactive: #AAA;
-    --color-tool-active: #0074D9;
+    --log-font-size: 1.5rem;
+    --color-base: #1e1e2e;
+    --color-text: #cdd6f4;
+    --color-subtle: #bac2de;
+    --color-username: #cba6f7;
+    --color-room-inactive: var(--color-subtle);
+    --color-room-active: #f9e2af;
+    --color-tool-inactive: var(--color-subtle);
+    --color-tool-active: #89b4fa;
+
+    --fade-out-gradient: linear-gradient(rgba(30, 30, 46, 0), rgba(30, 30, 46, 1.0));
+}
+@media (prefers-color-scheme: light) {
+    :root {
+        --color-base: #eff1f5;
+        --color-text: #4c4f69;
+        --color-subtle: #5c5f77;
+        --color-username: #8839ef;
+        --color-room-active: #df8e1d;
+        --color-tool-active: #1e66f5;
+
+        --fade-out-gradient: linear-gradient(rgba(239, 241, 245, 0), rgba(239, 241, 245, 1.0))
+    }
 }
 
 body {
@@ -64,7 +78,7 @@ main {
     bottom: 0;
     height: 25%;
     width: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1.0));
+    background: var(--fade-out-gradient);
 }
 
 #log li {
@@ -84,12 +98,15 @@ main {
 /* Helpers for log entries to use */
 span.username {
     color: var(--color-username);
+    font-weight: bold;
 }
 span.room {
     color: var(--color-room-active);
+    font-weight: bold;
 }
 span.tool {
     color: var(--color-tool-active);
+    font-weight: bold;
 }
 
 /* SVG Styling */
@@ -99,6 +116,7 @@ span.tool {
     stroke: var(--color-subtle);
     stroke-width: 1px;
     stroke-dasharray: 5;
+    fill: none;
 }
 
 /* Room rectangles and labels */
@@ -127,6 +145,7 @@ text.room.active {
 
 /* Tool rectangles, path things, and labels */
 rect.tool {
+    fill: none;
     stroke: var(--color-tool-inactive);
     stroke-width: 2px;
     transition: all var(--animation-length);
@@ -136,6 +155,7 @@ path.tool, text.tool {
     font-family: var(--font-mono);
     font-size: 13px;
     transition: all var(--animation-length);
+    fill: none;
 }
 
 rect.tool.active {
