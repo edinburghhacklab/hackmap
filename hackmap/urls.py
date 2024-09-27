@@ -16,7 +16,12 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from labmap import views
 
-urlpatterns = [path("admin/", admin.site.urls), path("", views.map)]
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", views.map),
+    path("lights", views.lights),
+    re_path(r"lights/(?P<ids>[0-9,]+)/(?P<val>[0-9.]+)", views.set_lights),
+]

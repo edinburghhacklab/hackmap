@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class LabmapConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'labmap'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "labmap"
