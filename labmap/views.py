@@ -32,3 +32,24 @@ def set_lights(req: HttpRequest, ids: str, val: int) -> JsonResponse:
             print(e)
             continue
     return JsonResponse({})
+
+
+@require_POST
+@csrf_exempt
+def set_light_preset(req: HttpRequest, preset: str) -> JsonResponse:
+    if preset not in [
+        "off",
+        "dim",
+        "bright",
+        "corners",
+        "movie",
+        "comfort",
+        "presentation",
+        "harmony",
+        "random",
+    ]:
+        return JsonResponse({"msg": "unrecognised preset"})
+
+    mqtt = labmap.mqtt.client()
+    mqtt.publish(f"dali/g1/preset/{preset}")
+    return JsonResponse({})

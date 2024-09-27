@@ -10,6 +10,7 @@
 
 <main>
     <div class="room-vis">
+        <div id="hall"><span>Hall</span></div>
         <!-- Left to right, top to bottom, starting at radio corner -->
         <!-- See https://wiki.ehlab.uk/g1_lighting#dali_addresses -->
         <div class="light" data-id="2"></div>
@@ -30,24 +31,36 @@
         <div class="light" data-id="11"></div>
         <div class="light" data-id="12"></div>
         <div class="light" data-id="15"></div>
+        <div id="window"><span>Window</span></div>
     </div>
-    <div class="actions">
+    <div id="actions">
         <div id="selection-status">No lights selected.</div>
         <input id="deselect" type="button" class="hidden" value="Deselect" />
         <div id="presets">
             <input type="button" value="All" data-preset="all" />
             <input type="button" value="Left half" data-preset="workbench" />
             <input type="button" value="Right half" data-preset="social" />
+            <br/>
+            <input type="button" value="Soldering" data-preset="soldering" />
+            <input type="button" value="Kitchen" data-preset="kitchen" />
         </div>
-        <div id="actions" class="hidden">
+        <div id="values" class="hidden">
             <input value="Off" type="button" data-brightness="0"/>
             <input value="Dim" type="button" data-brightness="150" />
-            <input value="Normal" type="button" data-brightness="200"/>
+            <input value="Normal" type="button" data-brightness="190"/>
             <input value="Bright" type="button" data-brightness="240"/>
             <input value="Full" type="button" data-brightness="255"/>
             <div class="ajax-slider" data-brightness="0">
-                <div></div>
+                <div style="width: 0"></div>
             </div>
+        </div>
+        <div id="spacer"></div>
+        <div id="set-presets">
+            <input type="button" value="Bright" data-setpreset="bright" />
+            <input type="button" value="Comfort" data-setpreset="comfort" />
+            <input type="button" value="Dim" data-setpreset="dim" />
+            <input type="button" value="Harmony" data-setpreset="harmony" />
+            <input type="button" value="Off" data-setpreset="off" />
         </div>
     </div>
 </main>

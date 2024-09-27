@@ -24,4 +24,5 @@ urlpatterns = [
     path("", views.map),
     path("lights", views.lights),
     re_path(r"lights/(?P<ids>[0-9,]+)/(?P<val>[0-9.]+)", views.set_lights),
+    re_path(r"lights/preset/(?P<preset>[A-z]+)", views.set_light_preset),
 ]
