@@ -80,7 +80,7 @@ span.tool {
     font-weight: bold;
 }
 span.temp {
-    color: var(--color-temp);
+    color: var(--color-heating);
     font-weight: bold;
 }
 
@@ -148,5 +148,8 @@ text.tool.active {
     fill: var(--color-tool-active);
 }
 tspan.heating {
+    fill: var(--color-heating);
+}
+tspan.temperature {
     fill: var(--color-temp);
 }

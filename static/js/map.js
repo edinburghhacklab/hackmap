@@ -22,9 +22,10 @@ document.addEventListener("DOMContentLoaded", function() {
         if (!msg.target || !msg.type || !msg.state) return;
         var targetElements = mapElement.querySelectorAll('.' + msg.target + '.' + msg.type);
         for (var el of targetElements) {
-            console.log(el);
             if (msg.type === "heating") {
-                el.innerHTML = msg.state !== "off" ? msg.state + "°C" : "";
+                el.innerHTML = msg.state !== "off" ? msg.state + "°" : "";
+            } else if (msg.type == "temperature") {
+                el.innerHTML = msg.state + "°";
             } else {
                 el.className.baseVal = [msg.target, msg.type, msg.state].join(' ');
             }
