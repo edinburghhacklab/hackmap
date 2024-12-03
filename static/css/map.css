@@ -79,6 +79,10 @@ span.tool {
     color: var(--color-tool-active);
     font-weight: bold;
 }
+span.temp {
+    color: var(--color-temp);
+    font-weight: bold;
+}
 
 /* SVG Styling */
 
@@ -142,4 +146,7 @@ path.tool.active {
 text.tool.active {
     opacity: 1;
     fill: var(--color-tool-active);
+}
+tspan.heating {
+    fill: var(--color-temp);
 }

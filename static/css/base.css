@@ -11,6 +11,7 @@
     --color-room-active: #FFDC00;
     --color-tool-inactive: var(--color-subtle);
     --color-tool-active: #0074D9;
+    --color-temp: #FE640B;
 
     --fade-out-gradient: linear-gradient(rgba(17, 17, 17, 0), rgba(17, 17, 17, 1.0))
 }

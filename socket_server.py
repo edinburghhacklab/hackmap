@@ -63,6 +63,7 @@ async def subscribe_topics(client, _userdata, _flags_dict, _result):
     await client.asyncio_subscribe("doorman/+/user")
     # await client.asyncio_subscribe("sensor/+/presence")
     await client.asyncio_subscribe("tool/+/user")
+    await client.asyncio_subscribe("environment/+/heating")
 
 
 async def doorman_message(msg):
@@ -152,6 +153,20 @@ async def tool_message(msg):
             )
         )
 
+async def heating_message(msg):
+    """Handle a heating status MQTT message, from environment/+/heating"""
+    # topic is of the form environment/<room>/heating
+    room = msg.topic.split("/")[1]
+    value: str = msg.payload.decode("utf-8")
+
+    await send_message(
+        WebsocketMessage(
+            f"<span class=room>{room}</span> heating set to <span class=temp>{value}</span>",
+            "heating",
+            room,
+            value
+        )
+    )
 
 async def mqtt_message(_client, _userdata, msg: MQTTMessage):
     """Dispatch MQTT message to the correct handler"""
@@ -162,6 +177,8 @@ async def mqtt_message(_client, _userdata, msg: MQTTMessage):
             await presence_message(msg)
         elif msg.topic.startswith("tool/") and msg.topic.endswith("/user"):
             await tool_message(msg)
+        elif msg.topic.startswith("environment/") and msg.topic.endswith("/heating"):
+            await heating_message(msg)
     except Exception as e:
         print(f"Error processing message: {e}")
 
