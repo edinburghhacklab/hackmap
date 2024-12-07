@@ -65,6 +65,7 @@ async def subscribe_topics(client, _userdata, _flags_dict, _result):
     await client.asyncio_subscribe("tool/+/user")
     await client.asyncio_subscribe("environment/+/heating")
     await client.asyncio_subscribe("environment/+/elsys/temperature")
+    await client.asyncio_subscribe("sensor/g1/temperature")
 
 
 async def doorman_message(msg):
@@ -154,6 +155,7 @@ async def tool_message(msg):
             )
         )
 
+
 async def heating_message(msg):
     """Handle a heating status MQTT message, from environment/+/heating"""
     # topic is of the form environment/<room>/heating
@@ -165,24 +167,22 @@ async def heating_message(msg):
             f"<span class=room>{room}</span> heating set to <span class=temp>{value}</span>",
             "heating",
             room,
-            value
+            value,
         )
     )
+
 
 async def temperature_message(msg):
     """Handle a temperature status MQTT message, from environment/+/elsys/temperature"""
     # topic is of the form environment/<room>/...
     room = msg.topic.split("/")[1]
+    if room == "g1" and "elsys" in msg.topic:
+        return
+
     value: str = msg.payload.decode("utf-8")
 
-    await send_message(
-        WebsocketMessage(
-            None,
-            "temperature",
-            room,
-            value
-        )
-    )
+    await send_message(WebsocketMessage(None, "temperature", room, value))
+
 
 async def mqtt_message(_client, _userdata, msg: MQTTMessage):
     """Dispatch MQTT message to the correct handler"""
@@ -195,7 +195,7 @@ async def mqtt_message(_client, _userdata, msg: MQTTMessage):
             await tool_message(msg)
         elif msg.topic.startswith("environment/") and msg.topic.endswith("/heating"):
             await heating_message(msg)
-        elif msg.topic.startswith("environment/") and msg.topic.endswith("/temperature"):
+        elif msg.topic.endswith("/temperature"):
             await temperature_message(msg)
     except Exception as e:
         print(f"Error processing message: {e}")
