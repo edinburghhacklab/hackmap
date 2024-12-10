@@ -124,22 +124,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.querySelectorAll('[data-setpreset]')
         .forEach(el => el.addEventListener('click', setPreset));
-
-    function sliderUpdateDisplay(e) {
-        e.preventDefault();
-        var touchX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
-        var offsetX = touchX - this.getBoundingClientRect().left;
-        var val = offsetX / this.offsetWidth;
-        if (val < 0.0 || val > 1.0) return;
-        this.dataset.brightness = val * 255;
-        this.querySelector('div').style = 'width: ' + (val * 100) + '%';
-    }
-    document.querySelector('.ajax-slider').addEventListener('mousemove', sliderUpdateDisplay);
-    document.querySelector('.ajax-slider').addEventListener('mouseleave', function(e) {
-        this.querySelector('div').style = "width: 0;";
-    });
-    document.querySelector('.ajax-slider').addEventListener('touchmove', sliderUpdateDisplay);
-    document.querySelector('.ajax-slider').addEventListener('touchstart', function(e) { e.preventDefault(); });
-    document.querySelectorAll('.ajax-slider')
-        .forEach(el => el.addEventListener('touchend', setLights));
 });

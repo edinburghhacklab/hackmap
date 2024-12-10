@@ -73,10 +73,6 @@
                 margin-right: 5px;
             }
 
-            .ajax-slider {
-                height: 4rem;
-            }
-
             .tile:active {
                 box-shadow: inset .1em .1em 1em black, inset -.1em -.1em 1em black;
             }
@@ -109,14 +105,6 @@
                     </div>
                 </a>
                 {% endfor %}
-                {% for slider in group.get_sliders %}
-                <div class="slider-container">
-                    <h4 class="fg-white">{{ slider.name }}</h4>
-                    <div class="ajax-slider progress bg-{{ group.color }}" data-id="{{ slider.id }}">
-                        <div class="progress-bar bg-white" style="height: 100%; width: 0;"></div>
-                    </div>
-                </div>
-                {% endfor %}
             </div>
             {% endfor %}
         </div>
@@ -135,31 +123,7 @@
             });
             e.preventDefault();
         });
-        function sliderUpdateDisplay(e) {
-            e.preventDefault();
-            var touchX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
-            var offsetX = touchX - this.getBoundingClientRect().left;
-            var val = offsetX / $(this).width();
-            if (val < 0.0 || val > 1.0) return;
-            $(this).attr('value', val);
-            $(this).contents('.progress-bar').first().css('width', (val * 100) + '%');
-        }
-        $('.ajax-slider').on('mousemove', sliderUpdateDisplay);
-        $('.ajax-slider').on('mouseleave', function(e) {
-            $(this).contents('.progress-bar').first().css('width', '0');
-        });
-        $('.ajax-slider').on('touchmove', sliderUpdateDisplay);
-        $('.ajax-slider').on('touchstart', function(e) { e.preventDefault(); });
-        function sliderRelease(e) {
-            sliderUpdateDisplay.bind(this)(e);
-            $.ajax({
-                url: '/slider/' + $(this).data('id') + '/' + $(this).attr('value')
-            });
-            $(this).contents('.progress-bar').first().css('width', '0');
-        }
-        $('.ajax-slider').on('mousedown', sliderRelease);
-        $('.ajax-slider').on('touchend', sliderRelease);
-  
+
         console.log("mqtt connecting...");
         const client = mqtt.connect("{{ MQTT_WS_URL }}", {
             keepalive: 60,
