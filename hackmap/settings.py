@@ -47,6 +47,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "hackmap.context_processors.settings_context",
             ],
         },
     },
@@ -94,6 +95,9 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_URL = ""
 MEDIA_ROOT = "media/"
+
+MQTT_HOST = "mqtt.hacklab"
+MQTT_WS_PORT = 8080
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

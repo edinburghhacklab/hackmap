@@ -1,54 +1,27 @@
-:root {
-    --color-pink: #f5c2e7;
-    --color-mauve: #cba6f7;
-    --color-red: #f38ba8;
-    --color-maroon: #eba0ac;
-    --color-peach: #fab387;
-    --color-yellow: #f9e2af;
-    --color-green: #a6e3a1;
-    --color-teal: #94e2d5;
-    --color-sky: #89dceb;
-    --color-sapphire: #74c7ec;
-    --color-blue: #89b4fa;
-    --color-lavender: #b4befe;
-    --color-text: #cdd6f4;
-    --color-subtext1: #bac2de;
-    --color-subtext0: #a6adc8;
-    --color-overlay2: #9399b2;
-    --color-overlay1: #7f849c;
-    --color-overlay0: #6c7086;
-    --color-surface2: #585b70;
-    --color-surface1: #45475a;
-    --color-surface0: #313244;
-    --color-base: #1e1e2e;
-    --color-mantle: #181825;
-    --color-crust: #11111b;
-}
-
-html {
-    font-family: sans-serif;
-    background: var(--color-base);
-    color: var(--color-text);
+main {
+    font-family: var(--font-sans);
 }
 
 .tile-area {
+    padding: 1rem 3rem;
     display: grid;
     max-width: 100%;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(auto-fill, 7.5rem);
     align-items: start;
+    justify-content: center;
     gap: 3px;
+    row-gap: 2rem;
 }
 
 .tile-group {
     display: grid;
-    grid-column: span 2;
     grid-template-columns: subgrid;
     gap: 3px;
     grid-auto-rows: auto;
 }
 
 .tile-group-title {
-    grid-column: span 2;
+    grid-column: 1 / -1;
     margin: 0;
     text-align: center;
     align-self: end;
@@ -62,7 +35,6 @@ html {
     align-content: center;
     align-items: center;
     justify-content: center;
-    justify-items: center;
     flex-direction: column;
     text-align: center;
 
@@ -72,23 +44,42 @@ html {
     font-size: 1.3rem;
 }
 
-
 .tile img {
-    height: 2rem;
     aspect-ratio: 1;
-    margin: 10px 30px;
+    margin: 0 auto;
+    height: 4rem;
 }
 
-.bg-black { background: var(--color-crust); }
-.bg-pink { background: var(--color-pink); }
-.bg-mauve { background: var(--color-mauve); }
+.tile label {
+    display: block;
+    color: var(--color-base);
+    font-size: 1.25rem;
+}
+
+.bg-black { background: var(--color-black); }
 .bg-red { background: var(--color-red); }
-.bg-maroon { background: var(--color-maroon); }
-.bg-peach { background: var(--color-peach); }
-.bg-yellow { background: var(--color-yellow); }
-.bg-green { background: var(--color-green); }
-.bg-teal { background: var(--color-teal); }
-.bg-sky { background: var(--color-sky); }
-.bg-sapphire { background: var(--color-sapphire); }
+.bg-green { background: var(--color-green); color: var(--color-black); }
+.bg-yellow { background: var(--color-yellow); color: var(--color-black); }
+.bg-orange { background: var(--color-orange); color: var(--color-black); }
 .bg-blue { background: var(--color-blue); }
-.bg-lavender { background: var(--color-lavender); }
+.bg-magenta { background: var(--color-magenta); color: var(--color-black); }
+.bg-purple { background: var(--color-purple); }
+.bg-cyan { background: var(--color-cyan); }
+.bg-white { background: var(--color-white); color: var(--color-black); }
+
+.bg-bright-black { background: var(--color-bright-black); }
+.bg-bright-red { background: var(--color-bright-red); }
+.bg-bright-green { background: var(--color-bright-green); }
+.bg-bright-yellow { background: var(--color-bright-yellow); }
+.bg-bright-orange { background: var(--color-bright-yellow); }
+.bg-bright-blue { background: var(--color-bright-blue); }
+.bg-bright-magenta { background: var(--color-bright-magenta); }
+.bg-bright-purple { background: var(--color-bright-purple); }
+.bg-bright-cyan { background: var(--color-bright-cyan); }
+.bg-bright-white { background: var(--color-bright-white); }
+.bg-subtle { background: var(--color-subtle: var(--color-white)); }
+
+.subscribe-active {
+  border: 0.1rem solid var(--color-white);
+  background-color: var(--color-bright-yellow);
+}

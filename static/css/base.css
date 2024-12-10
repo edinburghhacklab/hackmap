@@ -1,37 +1,51 @@
 :root {
+    /* base16: based on shapeshifter dark */
+    --color-black: #000000;
+    --color-red: #e92f2f;
+    --color-green: #0ed839;
+    --color-yellow: #dddd13;
+    --color-orange: #dd9e13;
+    --color-blue: #3b48e3;
+    --color-magenta: #f996e2;
+    --color-purple: #b071f9;
+    --color-cyan: #23edda;
+    --color-white: #ababab;
+
+    --color-bright-black: #343434;
+    --color-bright-red: #e92f2f;
+    --color-bright-green: #0ed839;
+    --color-bright-yellow: #dddd13;
+    --color-bright-orange: #dd9e13;
+    --color-bright-blue: #3b48e3;
+    --color-bright-magenta: #f996e2;
+    --color-bright-purple: #b071f9;
+    --color-bright-cyan: #23edda;
+    --color-bright-white: #f9f9f9;
+
+    --color-background: #000000;
+    --color-foreground: #ffffff;
+    --color-text: var(--color-foreground);
+    --color-subtle: var(--color-white);
+
+    /* i just think these fonts look good, we don't bother to actually ship them though */
     --font-sans: 'Inter', sans-serif;
     --font-mono: 'Monaspace Neon', monospace;
 
     --animation-length: 0.3s;
-    --color-base: #111111;
-    --color-text: #fff;
-    --color-subtle: #AAA;
-    --color-username: #F012BE;
+    --color-username: var(--color-magenta);
     --color-room-inactive: var(--color-subtle);
-    --color-room-active: #FFDC00;
+    --color-room-active: var(--color-yellow);
     --color-tool-inactive: var(--color-subtle);
-    --color-tool-active: #0074D9;
-    --color-heating: #FE640B;
+    --color-tool-active: var(--color-blue);
+    --color-heating: var(--color-orange);
     --color-temp: var(--color-subtle);
 
     --fade-out-gradient: linear-gradient(rgba(17, 17, 17, 0), rgba(17, 17, 17, 1.0))
 }
-/* @media (prefers-color-scheme: light) { */
-/*     :root { */
-/*         --color-base: #eff1f5; */
-/*         --color-text: #4c4f69; */
-/*         --color-subtle: #5c5f77; */
-/*         --color-username: #8839ef; */
-/*         --color-room-active: #df8e1d; */
-/*         --color-tool-active: #1e66f5; */
-
-/*         --fade-out-gradient: linear-gradient(rgba(239, 241, 245, 0), rgba(239, 241, 245, 1.0)) */
-/*     } */
-/* } */
 
 body {
-    background: var(--color-base);
-    color: var(--color-text);
+    background: var(--color-background);
+    color: var(--color-foreground);
     font-family: var(--font-mono);
     margin: 2rem 0;
 }

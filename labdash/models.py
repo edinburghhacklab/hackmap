@@ -4,9 +4,8 @@ from django.db import models
 class ButtonGroup(models.Model):
     name = models.CharField(max_length=200)
     color = models.CharField(max_length=200)
-    lighttext = models.BooleanField(default=False)
     priority = models.IntegerField(default=50)
-    tile_width = models.CharField(max_length=50, default="two")
+    tile_width = models.IntegerField(default=1)
     buttons: models.QuerySet["Button"]
 
     def __str__(self):
