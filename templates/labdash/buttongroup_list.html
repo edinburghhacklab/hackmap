@@ -1,0 +1,206 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Control Centre</title>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="{% static "css/metro-bootstrap.css" %}">
+        <link rel="stylesheet" href="{% static "css/metro-bootstrap-responsive.css" %}">
+
+        <link rel="shortcut icon" href="{% static "fav/favicon.ico" %}" type="image/x-icon">
+        <link rel="icon" href="{% static "fav/favicon.ico" %}" type="image/x-icon">
+
+        <style>
+            .show-grid [class^=col-]
+            {
+                border: 1px solid grey;
+            }
+        
+            .panel
+            {
+                padding: 0 15px;
+            }
+
+            .panel div
+            {
+                text-align: center;
+            }
+
+            .panel button
+            {
+                width: 90%;
+                margin: 10px auto;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                font-size: 22px;
+                border-radius: 8px;
+            }
+
+            .tile-content img
+            {
+                height: 60px;
+                margin: 10px 30px;
+            }
+
+            .subscribe-inactive
+            {
+                /* border: 10px solid transparent; */
+            }
+
+            .subscribe-active
+            {
+                /* border: 10px solid #fff; */
+                background-color: #f90;
+            }
+
+            .subscribe-active *
+            {
+                text-decoration: underline;
+            }
+
+            .brand h3
+            {
+                text-align: center;
+            }
+
+            .metro .tile-group
+            {
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+
+            .ajax-slider {
+                height: 4rem;
+            }
+
+            .tile:active {
+                box-shadow: inset .1em .1em 1em black, inset -.1em -.1em 1em black;
+            }
+        </style>
+    </head>
+    <body class="metro">
+        <div class="tile-area tile-area-dark">
+            {% for group in groups %}
+            <div class="tile-group {{ group.tile_width }}">
+                <div class="tile-group-title" data-id="{{ group.id }}">
+                    {{ group.name }}
+                </div>
+                {% for button in group.get_buttons %}
+                    {% if button.name == "Refresh" %}
+                <a href="/" class="tile bg-{{ group.color }}" data-id="{{ button.id }}">
+                    {% else %}
+                <a href="#" class="tile bg-{{ group.color }} ajax" data-id="{{ button.id }}">
+                    {% endif %}
+                    {% if button.subscribe_topic != "" %}
+                        <div class="tile-content subscribe-inactive"
+                                data-subscribe-topic="{{ button.subscribe_topic }}"
+                                data-subscribe-value="{{ button.subscribe_value }}">
+                    {% else %}
+                        <div class="tile-content">
+                    {% endif %}
+                        <img src="{{ button.icon.url }}">
+                        <div class="brand">
+                            <h3 class="fg-{% if group.lighttext %}white{% else %}dark{% endif %}">{{ button.name }}</h3>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+                {% for slider in group.get_sliders %}
+                <div class="slider-container">
+                    <h4 class="fg-white">{{ slider.name }}</h4>
+                    <div class="ajax-slider progress bg-{{ group.color }}" data-id="{{ slider.id }}">
+                        <div class="progress-bar bg-white" style="height: 100%; width: 0;"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </body>
+
+    <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+
+    <!-- This is the newest version that works on the G1 tablet -->
+    <script src="{% static 'js/mqtt-4.0.1.min.js' %}"></script>
+    <!--<script src="{% static 'js/mqtt-5.10.3.js' %}"></script>-->
+
+    <script>                       
+        $('.ajax').click(function(e) {
+            $.ajax({
+                url: '/trigger/' + $(this).data('id') 
+            });
+            e.preventDefault();
+        });
+        function sliderUpdateDisplay(e) {
+            e.preventDefault();
+            var touchX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+            var offsetX = touchX - this.getBoundingClientRect().left;
+            var val = offsetX / $(this).width();
+            if (val < 0.0 || val > 1.0) return;
+            $(this).attr('value', val);
+            $(this).contents('.progress-bar').first().css('width', (val * 100) + '%');
+        }
+        $('.ajax-slider').on('mousemove', sliderUpdateDisplay);
+        $('.ajax-slider').on('mouseleave', function(e) {
+            $(this).contents('.progress-bar').first().css('width', '0');
+        });
+        $('.ajax-slider').on('touchmove', sliderUpdateDisplay);
+        $('.ajax-slider').on('touchstart', function(e) { e.preventDefault(); });
+        function sliderRelease(e) {
+            sliderUpdateDisplay.bind(this)(e);
+            $.ajax({
+                url: '/slider/' + $(this).data('id') + '/' + $(this).attr('value')
+            });
+            $(this).contents('.progress-bar').first().css('width', '0');
+        }
+        $('.ajax-slider').on('mousedown', sliderRelease);
+        $('.ajax-slider').on('touchend', sliderRelease);
+  
+        console.log("mqtt connecting...");
+        const client = mqtt.connect("{{ MQTT_WS_URL }}", {
+            keepalive: 60,
+            protocolId: "MQTT",
+            protocolVersion: 4,
+            clean: true,
+            reconnectPeriod: 5000,
+            connectTimeout: 30 * 1000,
+        });
+        client.on("connect", () => {
+            console.log("mqtt connected");
+            client.subscribe("sensor/g1/temperature");
+            {% for group in groups %}
+                {% for button in group.get_buttons %}
+                    {% if button.subscribe_topic != "" %}
+            console.log("mqtt subscribe: {{ button.subscribe_topic }}");
+            client.subscribe("{{ button.subscribe_topic }}");
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        });
+        client.on("error", (err) => {
+            console.log("mqtt connection error: ", err);
+            client.end();
+        })
+        client.on("reconnect", () => {
+            console.log("mqtt reconnecting...");
+        });
+        client.on("message", (topic, message, packet) => {
+            var value = message.toString();
+            console.log(`mqtt message: ${topic} ${value}`);
+            var inactives = $(`[data-subscribe-topic="${topic}"][data-subscribe-value!="${value}"]`);
+            var actives = $(`[data-subscribe-topic="${topic}"][data-subscribe-value="${value}"]`);
+            inactives.removeClass("subscribe-active");
+            inactives.addClass("subscribe-inactive");
+            actives.removeClass("subscribe-inactive");
+            actives.addClass("subscribe-active");
+            /* TODO make this configurable */
+            if (topic == "sensor/g1/temperature") {
+                $(`[class="tile-group-title"][data-id="5"]`).text(`Heating (G1 is currently ${value}°C)`);
+            }
+        });
+    </script>
+</html>

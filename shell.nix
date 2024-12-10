@@ -6,5 +6,6 @@ pkgs.mkShell {
     pkgs.poetry
     pkgs.ruff
     pkgs.pyright
+    pkgs.sqlite
   ];
 }

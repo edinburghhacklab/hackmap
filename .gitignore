@@ -206,3 +206,6 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/python
 
 src/dist
+
+media/
+dump.sql

@@ -1,0 +1,94 @@
+:root {
+    --color-pink: #f5c2e7;
+    --color-mauve: #cba6f7;
+    --color-red: #f38ba8;
+    --color-maroon: #eba0ac;
+    --color-peach: #fab387;
+    --color-yellow: #f9e2af;
+    --color-green: #a6e3a1;
+    --color-teal: #94e2d5;
+    --color-sky: #89dceb;
+    --color-sapphire: #74c7ec;
+    --color-blue: #89b4fa;
+    --color-lavender: #b4befe;
+    --color-text: #cdd6f4;
+    --color-subtext1: #bac2de;
+    --color-subtext0: #a6adc8;
+    --color-overlay2: #9399b2;
+    --color-overlay1: #7f849c;
+    --color-overlay0: #6c7086;
+    --color-surface2: #585b70;
+    --color-surface1: #45475a;
+    --color-surface0: #313244;
+    --color-base: #1e1e2e;
+    --color-mantle: #181825;
+    --color-crust: #11111b;
+}
+
+html {
+    font-family: sans-serif;
+    background: var(--color-base);
+    color: var(--color-text);
+}
+
+.tile-area {
+    display: grid;
+    max-width: 100%;
+    grid-template-columns: repeat(10, 1fr);
+    align-items: start;
+    gap: 3px;
+}
+
+.tile-group {
+    display: grid;
+    grid-column: span 2;
+    grid-template-columns: subgrid;
+    gap: 3px;
+    grid-auto-rows: auto;
+}
+
+.tile-group-title {
+    grid-column: span 2;
+    margin: 0;
+    text-align: center;
+    align-self: end;
+}
+
+.tile {
+    overflow: hidden;
+
+    aspect-ratio: 1;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    flex-direction: column;
+    text-align: center;
+
+    color: var(--color-base);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+
+.tile img {
+    height: 2rem;
+    aspect-ratio: 1;
+    margin: 10px 30px;
+}
+
+.bg-black { background: var(--color-crust); }
+.bg-pink { background: var(--color-pink); }
+.bg-mauve { background: var(--color-mauve); }
+.bg-red { background: var(--color-red); }
+.bg-maroon { background: var(--color-maroon); }
+.bg-peach { background: var(--color-peach); }
+.bg-yellow { background: var(--color-yellow); }
+.bg-green { background: var(--color-green); }
+.bg-teal { background: var(--color-teal); }
+.bg-sky { background: var(--color-sky); }
+.bg-sapphire { background: var(--color-sapphire); }
+.bg-blue { background: var(--color-blue); }
+.bg-lavender { background: var(--color-lavender); }
