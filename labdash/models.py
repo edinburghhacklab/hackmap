@@ -7,6 +7,8 @@ class ButtonGroup(models.Model):
     lighttext = models.BooleanField(default=False)
     priority = models.IntegerField(default=50)
     tile_width = models.CharField(max_length=50, default="two")
+    buttons: models.QuerySet["Button"]
+    sliders: models.QuerySet["Slider"]
 
     def __str__(self):
         return self.name
@@ -27,6 +29,7 @@ class Button(models.Model):
     priority = models.IntegerField(default=50)
     subscribe_topic = models.CharField(max_length=200, default="", blank=True)
     subscribe_value = models.CharField(max_length=200, default="", blank=True)
+    actions: models.QuerySet["Action"]
 
     def __str__(self):
         return self.name
@@ -45,6 +48,7 @@ class Slider(models.Model):
         ButtonGroup, related_name="sliders", on_delete=models.CASCADE
     )
     priority = models.IntegerField(default=50)
+    actions: models.QuerySet["SliderAction"]
 
     def __str__(self):
         return self.name

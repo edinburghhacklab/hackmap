@@ -100,4 +100,4 @@ MEDIA_ROOT = "media/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-from .local_settings import *
+from .local_settings import *  # noqa:E402,F403

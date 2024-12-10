@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import asyncio
 import json
-import os
 import dataclasses
 from dataclasses import dataclass
 from datetime import datetime
@@ -230,7 +229,7 @@ async def event_loop():
 
 async def send_message(msg: WebsocketMessage):
     print(msg) if DEBUG else ""
-    if msg.state != None and msg.type != None and msg.target != None:
+    if msg.state is not None and msg.type is not None and msg.target is not None:
         CACHED_STATES[(msg.type, msg.target)] = msg.state
 
     broadcast(CONNECTIONS, json.dumps(dataclasses.asdict(msg)))
