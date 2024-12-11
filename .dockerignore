@@ -1,1 +1,7 @@
 scripts/
+media/
+shell.nix
+docker-compose.dev.yml
+db.sqlite3
+README.md
+Dockerfile

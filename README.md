@@ -1,6 +1,6 @@
 # hackmap
 
-a django app for visualising stuff going on in the hacklab.
+a django app for controlling and visualising stuff going on in the hacklab.
 
 ## development
 
@@ -56,20 +56,6 @@ you need to edit the svg by hand to add things. you can use `static/map_drawing.
 
 ## deployment
 
-deployment is done via docker, with the following `docker-compose.yaml`:
+deployment is done via docker, see `docker-compose.dev.yml` and `scripts/deploy.sh`.
 
-```yaml
-version: '2'
-services:
-  web:
-    image: registry.gitlab.com/tcmal/hackmap:latest
-    ports:
-      - "8448:8000" # web
-      - "8449:8001" # websocket
-    volumes:
-      - ./local_settings.py:/app/hackmap/local_settings.py # see hackmap/local_settings.py.tmpl
-      - ./db.sqlite3:/app/db.sqlite3 # touch db.sqlite3
-    restart: always
-```
-
-see `./scripts/deploy.sh`
+for now, you need push permission to the github container registry. this should probably be re-arranged to make things less difficult.

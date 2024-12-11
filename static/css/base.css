@@ -54,3 +54,10 @@ main {
     width: 75%;
     margin: 0 auto;
 }
+
+@media only screen and (orientation: portrait) {
+    main {
+        margin-top: 5rem;
+        width: 95%;
+    }
+}

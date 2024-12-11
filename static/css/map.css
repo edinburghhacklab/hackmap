@@ -22,9 +22,7 @@ main {
     }
 
     main {
-        margin-top: 5rem;
         grid-template-columns: 100%;
-        width: 90%;
     }
 }
 

@@ -3,7 +3,6 @@ main {
 }
 
 .tile-area {
-    padding: 1rem 3rem;
     display: grid;
     max-width: 100%;
     grid-template-columns: repeat(auto-fill, 7.5rem);
@@ -81,5 +80,5 @@ main {
 
 .subscribe-active {
   border: 0.1rem solid var(--color-white);
-  background-color: var(--color-bright-yellow);
+  background-color: var(--color-bright-orange);
 }

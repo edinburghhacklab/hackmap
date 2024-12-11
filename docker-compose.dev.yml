@@ -2,7 +2,7 @@ version: '2'
 services:
   web:
     build: .
-    image: registry.gitlab.com/tcmal/hackmap:latest
+    image: ghcr.io/edinburghhacklab/hackmap:latest
     ports:
       - "8000:8000" # web
       - "8001:8001" # websocket
