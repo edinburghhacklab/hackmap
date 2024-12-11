@@ -1,5 +1,7 @@
 from pathlib import Path
 from datetime import timedelta
+from django_auth_ldap.config import LDAPSearch
+import ldap
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -34,3 +36,9 @@ ROOM_ACTIVE_TIME = timedelta(minutes=5)
 ROOM_EXPIRY_POLL_SECS = 1
 
 WEBSOCKET_BIND = ("127.0.0.1", 8001)
+
+AUTHENTICATION_BACKENDS = ["django_auth_ldap.backend.LDAPBackend"]
+AUTH_LDAP_SERVER_URI = "ldaps://pool.ldap.ehlab.uk"
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+    "dc=edinburghhacklab,dc=com", ldap.SCOPE_SUBTREE, "(uid=%(user)s)"
+)

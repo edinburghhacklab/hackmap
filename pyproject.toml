@@ -13,6 +13,7 @@ django = "^5.1"
 django-vite = "^3.0.4"
 websockets = "^13.0"
 asyncio-paho = "^0.6.0"
+django-auth-ldap = "^5.1.0"
 
 
 [tool.poetry.group.dev.dependencies]

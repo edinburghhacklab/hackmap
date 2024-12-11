@@ -7,5 +7,7 @@ pkgs.mkShell {
     pkgs.ruff
     pkgs.pyright
     pkgs.sqlite
+    pkgs.openldap.dev
+    pkgs.cyrus_sasl.dev
   ];
 }
