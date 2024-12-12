@@ -24,7 +24,7 @@ class Button(models.Model):
     priority = models.IntegerField(default=50)
     subscribe_topic = models.CharField(max_length=200, default="", blank=True)
     subscribe_value = models.CharField(max_length=200, default="", blank=True)
-    href = models.CharField(max_length=50, null=True, default=None)
+    href = models.CharField(max_length=50, blank=True, default="")
     actions: models.QuerySet["Action"]
 
     def __str__(self):
