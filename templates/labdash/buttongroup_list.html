@@ -18,8 +18,8 @@
             <section class="tile-group" style="grid-column: span {{ group.tile_width }}">
                 <h3 class="tile-group-title" data-id="{{ group.id }}">{{ group.name }}</h3>
                 {% for button in group.get_buttons %}
-                    {% if button.name == "Refresh" %}
-                    <a href="/" class="tile bg-{{ group.color }}" data-id="{{ button.id }}">
+                    {% if button.href %}
+                    <a class="tile bg-{{ group.color }}" data-id="{{ button.id }}" href="{{ button.href }}">
                     {% elif button.subscribe_topic != "" %}
                     <a href="#" class="tile bg-{{ group.color }} subscribe-inactive ajax"
                         data-id="{{ button.id }}"

@@ -14,7 +14,12 @@ def map(req: HttpRequest) -> HttpResponse:
 
 def lights(req: HttpRequest) -> HttpResponse:
     return render(
-        req, "lights.html", context={"websocket_url": settings.MAP_WEBSOCKET_URL}
+        req,
+        "lights.html",
+        context={
+            "websocket_url": settings.MAP_WEBSOCKET_URL,
+            "is_kiosk": req.GET.get("kiosk", False) != False,
+        },
     )
 
 

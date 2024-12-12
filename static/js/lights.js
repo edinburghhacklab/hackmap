@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
     const IDLE_CLEAR_TIMEOUT_DURATION = 15000;
+    const KIOSK_INTERACT_TIMEOUT = 60 * 1000;
     var idleClearTimeout = null;
+    var lastInteraction = new Date();
 
     function lightPressed(e) {
         e.preventDefault();
@@ -10,11 +12,13 @@ document.addEventListener("DOMContentLoaded", function() {
             this.classList.add('active');
         }
         updateSelectionBox();
+        lastInteraction = new Date();
     }
 
     document.querySelectorAll('.light').forEach(el => el.addEventListener('click', lightPressed))
 
     function updateSelectionBox() {
+        lastInteraction = new Date();
         var numSelected = document.querySelectorAll('.light.active').length;
         if (numSelected == 0) {
             document.querySelector('#selection-status').innerText = `No lights selected.`;
@@ -44,12 +48,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function deselect() {
+        lastInteraction = new Date();
         document.querySelectorAll('.light.active').forEach(el => el.classList.remove('active'));
         updateSelectionBox();
     }
     document.querySelector('#deselect').addEventListener('click', deselect);
 
     function selectPreset() {
+        lastInteraction = new Date();
         var preset = this.dataset.preset;
         var toSelect = [];
         switch(preset) {
@@ -106,6 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .forEach(el => el.addEventListener('click', selectPreset));
 
     function setLights(e) {
+        lastInteraction = new Date();
         e.preventDefault();
         var val = this.dataset.brightness;
         var ids = Array.from(document.querySelectorAll('.light.active'))
@@ -117,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .forEach(el => el.addEventListener('click', setLights));
 
     function setPreset(e) {
+        lastInteraction = new Date();
         e.preventDefault();
         var preset = this.dataset['setpreset'];
         fetch(`/lights/preset/${preset}`, {method: "POST"});
@@ -124,4 +132,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.querySelectorAll('[data-setpreset]')
         .forEach(el => el.addEventListener('click', setPreset));
+
+
+    const isKiosk = JSON.parse(document.getElementById('isKiosk').textContent);
+    if (isKiosk) {
+        console.log("in kiosk mode");
+        setInterval(function() {
+            if (new Date() - lastInteraction >= KIOSK_INTERACT_TIMEOUT) {
+                document.location = "/";
+            }
+        }, KIOSK_INTERACT_TIMEOUT);
+    }
 });

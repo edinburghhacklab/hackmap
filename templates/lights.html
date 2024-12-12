@@ -61,10 +61,14 @@
             <input type="button" value="Dim" data-setpreset="dim" />
             <input type="button" value="Harmony" data-setpreset="harmony" />
             <input type="button" value="Off" data-setpreset="off" />
+            {% if is_kiosk %}
+            <a href="/"><input type="button" value="Back" /></a>
+            {% endif %}
         </div>
     </div>
 </main>
 
+{{ is_kiosk | json_script:"isKiosk" }}
 {{ websocket_url | json_script:"websocket-url" }}
 <script src="{% static 'js/lights.js' %}"></script>
 {% endblock %}

@@ -39,6 +39,7 @@
     --color-tool-active: var(--color-blue);
     --color-heating: var(--color-orange);
     --color-temp: var(--color-subtle);
+    --color-lighting: var(--color-bright-yellow);
 
     --fade-out-gradient: linear-gradient(rgba(17, 17, 17, 0), rgba(17, 17, 17, 1.0))
 }
