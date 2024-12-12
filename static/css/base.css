@@ -41,7 +41,7 @@
     --color-temp: var(--color-subtle);
     --color-lighting: var(--color-bright-yellow);
 
-    --fade-out-gradient: linear-gradient(rgba(17, 17, 17, 0), rgba(17, 17, 17, 1.0))
+    --fade-out-gradient: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1.0))
 }
 
 body {
