@@ -19,15 +19,59 @@ const client = mqtt.connect(wsURL, {
 });
 client.on("connect", () => {
     console.log("mqtt connected");
-    client.subscribe("sensor/g1/temperature");
-    for (var el of document.querySelectorAll('.subscribe-inactive')) {
-        let topic = el.dataset.subscribeTopic
-        if (topic) {
-            console.log(`mqtt subscribe: ${topic}`);
-            client.subscribe(topic);
-        }
-    }
+
+    var topics = new Set();
+
+    $(`[data-subscribe-topic]`).each(function() {
+        topics.add($(this).data("subscribe-topic"));
+    });
+
+    $.map(mqtt_group_topics, function(value, key) {
+        topics.add(key);
+    });
+
+    topics.forEach((value, key, set) => {
+        console.log(`mqtt subscribe: ${key}`);
+        client.subscribe(key);
+    });
 });
+
+var mqtt_group_topics = {};
+
+function mqtt_update_group_names(topic) {
+    $(`[class="tile-group-title"][data-name]`).each(function() {
+        var name = $(this).data("name");
+
+        if (topic == "") {
+            if (!name.includes("${"))
+                return;
+        } else {
+            if (!name.includes("${" + topic + "}"))
+                return;
+        }
+
+        $.map(mqtt_group_topics, function(value, key) {
+            name = name.replace("${" + key + "}", value);
+        });
+
+        $(this).text(name);
+    });
+};
+
+(function() {
+    $(`[class="tile-group-title"][data-name]`).each(function() {
+        var name = $(this).data("name");
+
+        while (name.includes("${")) {
+            var topic = name.substring(name.indexOf("${") + 2).split("}")[0];
+            name = name.substring(name.indexOf("${") + 2 + topic.length + 1);
+
+            mqtt_group_topics[topic] = "?";
+        }
+    });
+
+    mqtt_update_group_names("");
+})();
 
 client.on("message", (topic, message, packet) => {
     var value = message.toString();
@@ -37,9 +81,10 @@ client.on("message", (topic, message, packet) => {
     inactives.addClass("subscribe-inactive");
     actives.removeClass("subscribe-inactive");
     actives.addClass("subscribe-active");
-    /* TODO make this configurable */
-    if (topic == "sensor/g1/temperature") {
-        $(`[class="tile-group-title"][data-id="5"]`).text(`Heating (G1 is currently ${value}°C)`);
+
+    if (topic in mqtt_group_topics) {
+        mqtt_group_topics[topic] = value;
+        mqtt_update_group_names(topic);
     }
 });
 

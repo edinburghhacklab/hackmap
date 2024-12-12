@@ -16,7 +16,7 @@
         <main class="tile-area">
             {% for group in groups %}
             <section class="tile-group" style="grid-column: span {{ group.tile_width }}">
-                <h3 class="tile-group-title" data-id="{{ group.id }}">{{ group.name }}</h3>
+                <h3 class="tile-group-title" data-id="{{ group.id }}" data-name="{{ group.name }}">{{ group.name }}</h3>
                 {% for button in group.get_buttons %}
                     {% if button.href %}
                     <a class="tile bg-{{ group.color }}" data-id="{{ button.id }}" href="{{ button.href }}">
