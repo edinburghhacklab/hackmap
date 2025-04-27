@@ -143,4 +143,20 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }, KIOSK_INTERACT_TIMEOUT);
     }
+
+    function sliderUpdateDisplay(e) {
+        e.preventDefault();
+        var touchX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+        var offsetX = touchX - this.getBoundingClientRect().left;
+        var val = offsetX / this.clientWidth;
+        if (val < 0.0 || val > 1.0) return;
+        this.dataset.brightness = val * 255;
+        this.querySelector('div').style.width = (val * 100) + '%';
+    }
+    document.querySelectorAll('.ajax-slider').forEach(el => el.addEventListener('mousemove', sliderUpdateDisplay));
+    document.querySelectorAll('.ajax-slider').forEach(el => el.addEventListener('mouseleave', function(e) {
+        this.querySelector('div').style.width = 0;
+    }));
+    document.querySelectorAll('.ajax-slider').forEach(el => el.addEventListener('touchmove', sliderUpdateDisplay));
+    document.querySelectorAll('.ajax-slider').forEach(el => el.addEventListener('touchstart', function(e) { e.preventDefault(); }));
 });
