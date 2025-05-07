@@ -6,6 +6,7 @@ class ButtonGroup(models.Model):
     color = models.CharField(max_length=200)
     priority = models.IntegerField(default=50)
     tile_width = models.IntegerField(default=1)
+    hide = models.BooleanField(default=False)
     buttons: models.QuerySet["Button"]
 
     def __str__(self):

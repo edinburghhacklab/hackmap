@@ -8,7 +8,7 @@ import labdash.mqtt
 class Dashboard(ListView):
     model = ButtonGroup
     context_object_name = "groups"
-    queryset = ButtonGroup.objects.order_by("priority")
+    queryset = ButtonGroup.objects.filter(hide=False).order_by("priority")
 
 
 def trigger_button(request, pk):
