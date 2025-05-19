@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link href="{% static 'css/printers.css' %}" rel="stylesheet"/>
+<title>Hacklab Printers</title>
+{% endblock %}
+
+{% block body %}
+
+<main>
+    {% for printer in printers %}
+    <section data-printer="{{ printer.shortname }}" style="border-left-color: {{ printer.color }};">
+        <div class="camera"></div>
+        <div class="info">
+            <h1>{{ printer.name }}</h1>
+            <p class="description">{{ printer.description }}</p>
+            <progress max="100" value="0"></progress>
+            <p class="status">
+                <span class="file"></span>
+                <span class="percent"></span>
+                <span class="time"></span>
+            </p>
+        </div>
+    </section>
+    {% endfor %}
+</main>
+
+{{ MQTT_WS_URL | json_script:"websocket-url" }}
+<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'js/mqtt-5.10.3.min.js' %}"></script>
+<script src="{% static 'js/printers.js' %}"></script>
+{% endblock %}

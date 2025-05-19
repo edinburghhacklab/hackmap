@@ -1,0 +1,56 @@
+:root {
+    --inactive-outline-color: var(--color-white);
+    --active-outline-color: var(--color-bright-yellow);
+
+    --progress-outline: var(--color-foreground);
+    --progress-bg: var(--color-background);
+    --progress-fg: var(--color-bright-yellow);
+    --animation-length: 0.3s;
+}
+
+main {
+    max-width: 100ch;
+    margin: 0 auto;
+}
+
+main section {
+    box-sizing: border-box;
+    margin-bottom: 2rem;
+
+    border-left-width: 3rem !important;
+    border-left-style: solid !important;
+    box-shadow: 0px 0px 0px 1px var(--inactive-outline-color);
+
+    display: grid;
+    opacity: 0.5;
+
+    grid-template-columns: 100%; /* TODO: camera styling */
+}
+
+main section .description {
+    color: var(--color-subtle);
+}
+
+main section .info {
+    padding: 0.8rem;
+}
+main section progress {
+    width: 100%;
+    background: var(--progress-bg);
+    outline: 0; border: 0;
+    &::-webkit-progress-bar, &::-moz-progress-bar {
+        background-color: var(--progress-fg);
+    }
+}
+
+main section:not(.active) .status,
+main section:not(.active) progress {
+    display: none;
+}
+main section.active {
+    box-shadow: 0px 0px 2px 3px var(--active-outline-color);
+    opacity: 1;
+}
+main section.active progress {
+    border: 1px solid var(--progress-outline);
+}

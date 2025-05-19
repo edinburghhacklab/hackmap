@@ -18,11 +18,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 import labmap.views
+import labprinter.views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("map", labmap.views.map),
     path("lights", labmap.views.lights),
+    path("printers", labprinter.views.Printers.as_view()),
     re_path(r"lights/(?P<ids>[0-9,]+)/(?P<val>[0-9.]+)", labmap.views.set_lights),
     re_path(r"lights/preset/(?P<preset>[A-z]+)", labmap.views.set_light_preset),
     path("", include("labdash.urls")),
