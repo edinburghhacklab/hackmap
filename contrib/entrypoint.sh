@@ -1,6 +1,8 @@
 #!/bin/sh
 cd /app
 export PYTHONUNBUFFERED=1
-poetry run python ./manage.py migrate
-poetry run python ./socket_server.py &
-exec poetry run python ./manage.py runserver --noreload 0.0.0.0:8000
+. /opt/pysetup/.venv/bin/activate
+python ./manage.py migrate
+
+python ./socket_server.py &
+exec python ./manage.py runserver --noreload 0.0.0.0:8000
