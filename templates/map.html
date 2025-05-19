@@ -279,6 +279,8 @@
     </ul>
 </main>
 
-{{ websocket_url | json_script:"websocket-url" }}
+{{ MQTT_WS_URL | json_script:"websocket-url" }}
+<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'js/mqtt-5.10.3.min.js' %}"></script>
 <script src="{% static 'js/map.js' %}"></script>
 {% endblock %}

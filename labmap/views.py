@@ -7,9 +7,7 @@ import labmap.mqtt
 
 
 def map(req: HttpRequest) -> HttpResponse:
-    return render(
-        req, "map.html", context={"websocket_url": settings.MAP_WEBSOCKET_URL}
-    )
+    return render(req, "map.html")
 
 
 def lights(req: HttpRequest) -> HttpResponse:
@@ -17,7 +15,6 @@ def lights(req: HttpRequest) -> HttpResponse:
         req,
         "lights.html",
         context={
-            "websocket_url": settings.MAP_WEBSOCKET_URL,
             "is_kiosk": req.GET.get("kiosk", False) != False,
         },
     )
