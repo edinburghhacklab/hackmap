@@ -33,6 +33,11 @@ client.on("message", (topic, message, packet) => {
     let typ = topic.split("/")[2];
     if (typ === "state" && value === "Printing") {
         $(`section[data-printer=${printer}]`).addClass(`active`);
+    } else if (typ === "state" && value == "Preprint") {
+        $(`section[data-printer=${printer}]`).addClass(`active`);
+        $(`[data-printer=${printer}] .percent`).text(`Preparing to print...`);
+        $(`[data-printer=${printer}] .time`).text(``);
+        $(`[data-printer=${printer}] progress`).val(0);
     } else if (typ === "state") {
         $(`section[data-printer=${printer}]`).removeClass(`active`);
         $(`[data-printer=${printer}] .percent`).text(``);
