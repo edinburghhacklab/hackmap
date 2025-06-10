@@ -47,6 +47,7 @@ client.on("connect", () => {
     [
         "doorman/+/user",
         "tool/+/user",
+        "tool/+/status", // for when tool controllers are powered down
         "environment/+/heating",
         "environment/+/elsys/temperature",
         "sensor/g1/temperature"
@@ -54,11 +55,21 @@ client.on("connect", () => {
         console.log(`mqtt subscribe: ${key}`);
         client.subscribe(key);
     });
+
+
+    // There will initially be a spam of x not in use / empty from retained topics,
+    // so clear the log after that
+    setTimeout(() => {
+        while (logElement.childElementCount > 0) {
+            logElement.removeChild(logElement.lastChild);
+        }
+        addToLog({display: "welcome"});
+    }, 500);
 });
 
 client.on("message", (topic, message, packet) => {
     var value = message.toString();
-    var msg = {};
+    var msg = undefined;
     if (topic.startsWith("doorman/") && topic.endsWith("/user")) {
         if (value.length === 0) // door closing again, ignore
             return;
@@ -81,16 +92,16 @@ client.on("message", (topic, message, packet) => {
                 state: "inactive",
             });
         }, 5000);
-    } else if (topic.startsWith("tool/") && topic.endsWith("/user")) {
+    } else if (topic.startsWith("tool/") && (topic.endsWith("/user") || topic.endsWith("/status"))) {
         var tool = topic.split("/")[1];
-        if (value.length === 0) {
+        if (value.length === 0 || (topic.endsWith("/status") && value === "offline")) {
             msg = {
                 display: `<span class=tool>${tool}</span> no longer in use`,
                 type: "tool",
                 target: tool,
                 state: "inactive",
             };
-        } else if (value !== "anonymous") {
+        } else if (topic.endsWith("/user") && value !== "anonymous") {
             msg = {
                 display: `<span class=username>${value}</span> is now using <span class=tool>${tool}</span>`,
                 type: "tool",
@@ -118,8 +129,10 @@ client.on("message", (topic, message, packet) => {
             state: value,
         };
     }
-    addToLog(msg);
-    updateElementState(msg);
+    if (msg) {
+        addToLog(msg);
+        updateElementState(msg);
+    }
 });
 
 client.on("error", (err) => {
