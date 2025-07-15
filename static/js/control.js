@@ -75,8 +75,8 @@ function mqtt_update_group_names(topic) {
 
 client.on("message", (topic, message, packet) => {
     var value = message.toString();
-    var inactives = $(`[data-subscribe-topic="${topic}"][data-subscribe-value!="${value}"]`);
-    var actives = $(`[data-subscribe-topic="${topic}"][data-subscribe-value="${value}"]`);
+    var inactives = $(`[data-subscribe-topic="${CSS.escape(topic)}"][data-subscribe-value!="${CSS.escape(value)}"]`);
+    var actives = $(`[data-subscribe-topic="${CSS.escape(topic)}"][data-subscribe-value="${CSS.escape(value)}"]`);
     inactives.removeClass("subscribe-active");
     inactives.addClass("subscribe-inactive");
     actives.removeClass("subscribe-inactive");
