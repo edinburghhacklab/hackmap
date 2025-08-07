@@ -17,6 +17,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.querySelectorAll('.light').forEach(el => el.addEventListener('click', lightPressed))
 
+    function bumpIdleClearTimeout() {
+        if (idleClearTimeout)
+            clearTimeout(idleClearTimeout);
+        idleClearTimeout = setTimeout(deselect, IDLE_CLEAR_TIMEOUT_DURATION);
+    }
+
     function updateSelectionBox() {
         lastInteraction = new Date();
         var numSelected = document.querySelectorAll('.light.active').length;
@@ -36,14 +42,14 @@ document.addEventListener("DOMContentLoaded", function() {
             document.querySelector('#presets').classList.add('hidden');
             document.querySelector('#set-presets').classList.add('hidden');
             document.querySelector('#values').classList.remove('hidden');
-            idleClearTimeout = setTimeout(deselect, IDLE_CLEAR_TIMEOUT_DURATION);
+            bumpIdleClearTimeout();
         } else {
             document.querySelector('#selection-status').innerText = `${numSelected} lights selected.`;
             document.querySelector('#deselect').classList.remove('hidden');
             document.querySelector('#presets').classList.add('hidden');
             document.querySelector('#set-presets').classList.add('hidden');
             document.querySelector('#values').classList.remove('hidden');
-            idleClearTimeout = setTimeout(deselect, IDLE_CLEAR_TIMEOUT_DURATION);
+            bumpIdleClearTimeout();
         }
     }
 
@@ -118,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var ids = Array.from(document.querySelectorAll('.light.active'))
             .map(el => el.dataset.id);
         fetch(`/lights/${ids.join(",")}/${Math.floor(val)}`, {method: "POST"});
+        bumpIdleClearTimeout();
     }
 
     document.querySelectorAll('[data-brightness]')
@@ -132,7 +139,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.querySelectorAll('[data-setpreset]')
         .forEach(el => el.addEventListener('click', setPreset));
-
 
     const isKiosk = JSON.parse(document.getElementById('isKiosk').textContent);
     if (isKiosk) {
@@ -152,11 +158,21 @@ document.addEventListener("DOMContentLoaded", function() {
         if (val < 0.0 || val > 1.0) return;
         this.dataset.brightness = val * 254;
         this.querySelector('div').style.width = (val * 100) + '%';
+        bumpIdleClearTimeout();
+    }
+
+    function sliderClear(e) {
+        this.dataset.brightness = 0;
+        this.querySelector('div').style.width = 0;
     }
     document.querySelectorAll('.ajax-slider').forEach(el => el.addEventListener('mousemove', sliderUpdateDisplay));
-    document.querySelectorAll('.ajax-slider').forEach(el => el.addEventListener('mouseleave', function(e) {
-        this.querySelector('div').style.width = 0;
-    }));
+    document.querySelectorAll('.ajax-slider').forEach(el => el.addEventListener('mouseleave', sliderClear));
     document.querySelectorAll('.ajax-slider').forEach(el => el.addEventListener('touchmove', sliderUpdateDisplay));
-    document.querySelectorAll('.ajax-slider').forEach(el => el.addEventListener('touchstart', function(e) { e.preventDefault(); }));
+    document.querySelectorAll('.ajax-slider').forEach(el => el.addEventListener('touchleave', sliderClear));
+    document.querySelectorAll('.ajax-slider').forEach(el => el.addEventListener('touchstart', sliderUpdateDisplay));
+    document.querySelectorAll('.ajax-slider').forEach(el => el.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        (setLights.bind(e.target))(e);
+        (sliderClear.bind(e.target))(e);
+    }));
 });
