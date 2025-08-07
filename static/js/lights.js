@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var offsetX = touchX - this.getBoundingClientRect().left;
         var val = offsetX / this.clientWidth;
         if (val < 0.0 || val > 1.0) return;
-        this.dataset.brightness = val * 255;
+        this.dataset.brightness = val * 254;
         this.querySelector('div').style.width = (val * 100) + '%';
     }
     document.querySelectorAll('.ajax-slider').forEach(el => el.addEventListener('mousemove', sliderUpdateDisplay));
