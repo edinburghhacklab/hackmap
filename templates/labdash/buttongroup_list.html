@@ -19,7 +19,14 @@
                 <h3 class="tile-group-title" data-id="{{ group.id }}" data-name="{{ group.name }}">{{ group.name }}</h3>
                 {% for button in group.get_buttons %}
                     {% if button.href %}
+                        {% if button.subscribe_topic != "" %}
+                    <a class="tile bg-{{ group.color }} subscribe-inactive"
+                        data-id="{{ button.id }}" href="{{ button.href }}"
+                        data-subscribe-topic="{{ button.subscribe_topic }}"
+                        data-subscribe-value="{{ button.subscribe_value }}">
+                        {% else %}
                     <a class="tile bg-{{ group.color }}" data-id="{{ button.id }}" href="{{ button.href }}">
+                        {% endif %}
                     {% elif button.subscribe_topic != "" %}
                     <a href="#" class="tile bg-{{ group.color }} subscribe-inactive ajax"
                         data-id="{{ button.id }}"
