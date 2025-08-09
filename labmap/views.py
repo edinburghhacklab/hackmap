@@ -24,15 +24,12 @@ def lights(req: HttpRequest) -> HttpResponse:
 @csrf_exempt
 def set_lights(req: HttpRequest, ids: str, val: int) -> JsonResponse:
     mqtt = labmap.mqtt.client()
-    lights = ids.split(",")
-    for light in lights:
-        try:
-            light_id = int(light)
-            assert light_id < 18
-            mqtt.publish(f"dali/g1/set/{light_id}", payload=val)
-        except Exception as e:
-            print(e)
-            continue
+    try:
+        lights = ",".join([str(int(light)) for light in ids.split(",")])
+        mqtt.publish(f"dali/g1/set/{lights}", payload=val)
+    except Exception as e:
+        print(e)
+        return JsonResponse({"msg": "invalid light ids"})
     return JsonResponse({})
 
 
