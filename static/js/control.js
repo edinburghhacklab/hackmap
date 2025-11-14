@@ -1,5 +1,9 @@
 // regular old buttons
+var lastInteraction = new Date();
+const KIOSK_INTERACT_TIMEOUT = 60 * 1000;
+
 $('.ajax').click(function(e) {
+    lastInteraction = new Date();
     $.ajax({
         url: '/trigger/' + $(this).data('id')
     });
@@ -97,3 +101,14 @@ client.on("reconnect", () => {
     console.log("mqtt reconnecting...");
 });
 
+
+// timeout to go back home when not on main page
+var doHomeTimeout = JSON.parse(document.getElementById('doHomeTimeout').textContent);
+if (doHomeTimeout) {
+    console.log("in kiosk mode");
+    setInterval(function() {
+        if (new Date() - lastInteraction >= KIOSK_INTERACT_TIMEOUT) {
+            document.location = "/";
+        }
+    }, KIOSK_INTERACT_TIMEOUT);
+}

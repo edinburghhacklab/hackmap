@@ -47,6 +47,7 @@
     </body>
 
     {{ MQTT_WS_URL | json_script:"websocket-url" }}
+    {{ do_home_timeout | default:False | json_script:"doHomeTimeout" }}
     <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
     <script src="{% static 'js/mqtt-5.10.3.min.js' %}"></script>
     <script src="{% static 'js/control.js' %}"></script>
