@@ -48,8 +48,8 @@ client.on("connect", () => {
         "doorman/+/user",
         "tool/+/user",
         "tool/+/status", // for when tool controllers are powered down
+        "environment/+/heating",
         "environment/+/elsys/temperature",
-        "sensor/g1/temperature"
     ].forEach(key => {
         console.log(`mqtt subscribe: ${key}`);
         client.subscribe(key);
