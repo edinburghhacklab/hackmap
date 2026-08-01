@@ -17,6 +17,7 @@ client.on("connect", () => {
     $(`[data-printer]`).each(function() {
         var printer = $(this).data("printer");
         topics.add(`printers/${printer}/state`);
+        topics.add(`printers/${printer}/file`);
         topics.add(`printers/${printer}/percent_done`);
         topics.add(`printers/${printer}/time_remaining_mins`);
     });
@@ -31,24 +32,30 @@ client.on("message", (topic, message, packet) => {
     var value = message.toString();
     let printer = topic.split("/")[1];
     let typ = topic.split("/")[2];
+    let printerSection = $(`section[data-printer=${printer}]`);
     if (typ === "state" && value === "Printing") {
-        $(`section[data-printer=${printer}]`).addClass(`active`);
+        printerSection.addClass(`active`);
+        printerSection.removeClass(`preparing`);
     } else if (typ === "state" && value == "Preprint") {
-        $(`section[data-printer=${printer}]`).addClass(`active`);
-        $(`[data-printer=${printer}] .percent`).text(`Preparing to print...`);
+        printerSection.addClass(`active`);
+        printerSection.addClass(`preparing`);
+        $(`[data-printer=${printer}] .percent`).text(`Preparing...`);
         $(`[data-printer=${printer}] .time`).text(``);
+        $(`[data-printer=${printer}] .file`).text(``);
         $(`[data-printer=${printer}] progress`).val(0);
     } else if (typ === "state") {
-        $(`section[data-printer=${printer}]`).removeClass(`active`);
+        printerSection.removeClass(`active`);
+        printerSection.removeClass(`preparing`);
         $(`[data-printer=${printer}] .percent`).text(``);
         $(`[data-printer=${printer}] .time`).text(``);
         $(`[data-printer=${printer}] progress`).val(0);
+        return;
     }
 
-    if (typ === "percent_done") {
+    if (typ === "percent_done" && !printerSection.hasClass('preparing')) {
         $(`[data-printer=${printer}] .percent`).text(`${value}% complete -`);
         $(`[data-printer=${printer}] progress`).val(value);
-    } else if (typ === "time_remaining_mins" && value != "0") {
+    } else if (typ === "time_remaining_mins" && !printerSection.hasClass('preparing')) {
         $(`[data-printer=${printer}] .time`).text(`${value} minutes remaining`);
     } else if (typ === "file") {
         $(`[data-printer=${printer}] .file`).text(`Printing ${value} - `);
