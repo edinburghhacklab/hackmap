@@ -8,7 +8,7 @@ from django.http import JsonResponse
 class Printers(ListView):
     model = Printer
     context_object_name = "printers"
-    queryset = Printer.objects.all().order_by("shortname")
+    queryset = Printer.objects.all().order_by("priority")
 
 
 def lights_on(request):
