@@ -1,27 +1,25 @@
-FROM python:3.11-alpine AS base
+FROM python:3.11-alpine
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+RUN apk add --no-cache --virtual .build-deps musl-dev gcc openldap-dev libffi-dev
+
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_DEFAULT_TIMEOUT=100 \
-    POETRY_HOME="/opt/poetry" \
-    POETRY_VIRTUALENVS_IN_PROJECT=true \
-    POETRY_NO_INTERACTION=1 \
-    PYSETUP_PATH="/opt/pysetup" \
-    VENV_PATH="/opt/pysetup/.venv"
-ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
+    PIP_DEFAULT_TIMEOUT=100
 
-FROM base AS builder
-RUN apk add --no-cache --virtual .build-deps musl-dev gcc openldap-dev libffi-dev
-RUN pip install poetry
-WORKDIR $PYSETUP_PATH
-COPY ./poetry.lock ./pyproject.toml ./
-RUN poetry install
+# Change the working directory to the `app` directory
+WORKDIR /app
 
-FROM base AS production
-RUN apk add --no-cache --virtual .build-deps musl-dev gcc openldap-dev libffi-dev
-COPY --from=builder $VENV_PATH $VENV_PATH
+# Install dependencies
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-install-project
+
 COPY . /app
 
-WORKDIR /app
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked
+
 ENTRYPOINT ["/app/contrib/entrypoint.sh"]

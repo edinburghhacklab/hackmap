@@ -3,7 +3,6 @@
 }:
 pkgs.mkShell {
   buildInputs = [
-    pkgs.poetry
     pkgs.ruff
     pkgs.pyright
     pkgs.sqlite

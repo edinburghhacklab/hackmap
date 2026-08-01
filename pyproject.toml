@@ -1,24 +1,36 @@
-[tool.poetry]
+[project]
 name = "hackmap"
 version = "0.1.0"
 description = "Map for edinburgh hacklab"
-authors = ["Aria Shrimpton <me@aria.rip>"]
-license = "AGPL"
+authors = [{ name = "Aria Shrimpton", email = "me@aria.rip" }]
+requires-python = ">=3.11,<4"
 readme = "README.md"
-package-mode = false
+license = "AGPL"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+dependencies = [
+    "django>=5.1,<6",
+    "django-vite>=3.0.4,<4",
+    "websockets>=13.0,<14",
+    "asyncio-paho>=0.6.0,<0.7",
+    "django-auth-ldap>=5.1.0,<6",
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-django = "^5.1"
-django-vite = "^3.0.4"
-websockets = "^13.0"
-asyncio-paho = "^0.6.0"
-django-auth-ldap = "^5.1.0"
+[dependency-groups]
+dev = ["django-stubs>=5.1.1,<6"]
 
+[tool.uv]
+package = false
+default-groups = "all"
 
-[tool.poetry.group.dev.dependencies]
-django-stubs = "^5.1.1"
+[tool.uv.build-backend]
+module-root = ""
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build>=0.11.32,<0.12.0"]
+build-backend = "uv_build"
