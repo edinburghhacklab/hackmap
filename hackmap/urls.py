@@ -25,6 +25,8 @@ urlpatterns = [
     path("map", labmap.views.map),
     path("lights", labmap.views.lights),
     path("printers", labprinter.views.Printers.as_view()),
+    path("printers/lights/on", labprinter.views.lights_on),
+    path("printers/lights/off", labprinter.views.lights_off),
     re_path(r"lights/(?P<ids>[0-9,]+)/(?P<val>[0-9.]+)", labmap.views.set_lights),
     re_path(r"lights/preset/(?P<preset>[A-z]+)", labmap.views.set_light_preset),
     path("", include("labdash.urls")),

@@ -9,6 +9,7 @@ const client = mqtt.connect(wsURL, {
     reconnectPeriod: 5000,
     connectTimeout: 30 * 1000,
 });
+
 client.on("connect", () => {
     console.log("mqtt connected");
 
@@ -70,3 +71,28 @@ client.on("error", (err) => {
 client.on("reconnect", () => {
     console.log("mqtt reconnecting...");
 });
+
+
+let lightsOffTask = undefined;
+function lights_on() {
+    $.ajax({
+        url: '/printers/lights/on'
+    });
+
+    // Turn off after 20 seconds
+    if (lightsOffTask)
+        clearTimeout(lightsOffTask)
+    lightsOffTask = setTimeout(lights_off, 20 * 1000);
+}
+
+function lights_off() {
+    $.ajax({
+        url: '/printers/lights/off'
+    });
+}
+
+document.onkeydown = function (e) {
+    if (e.key == "a") {
+        lights_on()
+    }
+};

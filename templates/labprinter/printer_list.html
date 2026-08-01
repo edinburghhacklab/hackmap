@@ -11,7 +11,7 @@
 <main>
     {% for printer in printers %}
     <section data-printer="{{ printer.shortname }}" style="border-left-color: {{ printer.color }};">
-        <div class="camera"></div>
+
         <div class="info">
             <h1>{{ printer.name }}</h1>
             <p class="description">{{ printer.description }}</p>
@@ -22,6 +22,11 @@
                 <span class="time"></span>
             </p>
         </div>
+        {% if printer.camera_url %}
+        <div class="camera">
+            <img src="http://voron24.hacklab/webcam/?action=stream" alt="Webcam Unavailable">
+        </div>
+        {% endif %}
     </section>
     {% endfor %}
 </main>
