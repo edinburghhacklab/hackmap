@@ -49,7 +49,11 @@ client.on("connect", () => {
         "tool/+/user",
         "tool/+/status", // for when tool controllers are powered down
         "environment/+/heating",
-        "environment/+/elsys/temperature",
+        "environment/g1/elsys/temperature",
+        "sensor/g11/temperature/28c893a704000068",
+        "sensor/g2/temperature/28c9b9a70400001a",
+        "sensor/g8/temperature/282c7da7040000e5",
+        "sensor/g14/temperature/28ff1097c4170523",
     ].forEach(key => {
         console.log(`mqtt subscribe: ${key}`);
         client.subscribe(key);
@@ -116,10 +120,8 @@ client.on("message", (topic, message, packet) => {
             target: room,
             state: value,
         };
-    } else if (topic.endsWith("/temperature")) {
+    } else if (topic.includes("temperature")) {
         var room = topic.split("/")[1];
-        if (room === "g1" && topic.includes("elsys"))
-            return;
 
         msg = {
             display: "",
