@@ -13,6 +13,11 @@ main {
     margin: 0 auto;
 }
 
+main > h1 {
+    text-align: center;
+    font-size: 3rem;
+}
+
 main section {
     box-sizing: border-box;
     margin-bottom: 2rem;
