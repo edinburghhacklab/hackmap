@@ -46,6 +46,7 @@ main section .camera {
 main section .camera img {
     display: block;
     width: 80%;
+    aspect-ratio: 1.7777;
     margin: 1rem auto;
 }
 main section progress {

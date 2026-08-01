@@ -96,3 +96,19 @@ document.onkeydown = function (e) {
         lights_on()
     }
 };
+
+document.onblur = function (e) {
+    var targetElements = document.querySelectorAll('.camera img');
+    for (var el of targetElements) {
+        el.dataset['src'] = el.src;
+        el.src = '';
+    }
+};
+
+document.onfocus = function (e) {
+    var targetElements = document.querySelectorAll('.camera img');
+    for (var el of targetElements) {
+        if (el.dataset['src'])
+            el.src = el.dataset['src'];
+    }
+};
