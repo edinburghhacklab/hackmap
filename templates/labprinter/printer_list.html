@@ -25,7 +25,7 @@
         </div>
         {% if printer.camera_url %}
         <div class="camera">
-            <img src="http://voron24.hacklab/webcam/?action=stream" alt="Webcam Unavailable">
+            <img src="{{ printer.camera_url }}" alt="Webcam Unavailable">
         </div>
         {% endif %}
     </section>

@@ -6,7 +6,8 @@ const client = mqtt.connect(wsURL, {
     protocolVersion: 4,
     clean: true,
     reconnectPeriod: 5000,
-    connectTimeout: 30 * 1000,
+    connectTimeout: 15 * 1000,
+    reconnectOnConnackError: true,
 });
 
 const mapElement = document.querySelector('#map');
