@@ -34,7 +34,7 @@ function updateElementState(msg) {
         if (msg.type === "heating") {
             el.innerHTML = msg.state !== "off" ? msg.state + "°" : "";
         } else if (msg.type == "temperature") {
-            el.innerHTML = msg.state + "°";
+            el.innerHTML = parseFloat(msg.state).toFixed(1) + "°";
         } else {
             el.className.baseVal = [msg.target, msg.type, msg.state].join(' ');
         }
