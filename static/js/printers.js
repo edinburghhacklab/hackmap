@@ -91,6 +91,23 @@ function lights_off() {
     });
 }
 
+function update_cameras() {
+    $('.camera img').each(function() {
+        if (!this.src)
+            return;
+
+        var url = URL.parse(this.src);
+        let params = url.searchParams;
+        params.set('cacheBusting', Date.now());
+        url.search = params.toString();
+
+        this.src = url.toString();
+    });
+}
+
+let fps = 5;
+setInterval(update_cameras, 1000 / fps);
+
 document.onkeydown = function (e) {
     if (e.key == "a") {
         lights_on()
